@@ -1,0 +1,326 @@
+type Category {
+  id: ID!
+  title: String!
+  poster: String!
+  wines(filter: ModelWineFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelWineConnection
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type Wine {
+  id: ID!
+  title: String!
+  origin: String
+  year: Int
+  rating: Int
+  categoryID: ID!
+  more(filter: ModelMoreFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelMoreConnection
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type More {
+  id: ID!
+  name: String
+  front: String
+  back: String
+  sell: String
+  poster: String
+  wineID: ID!
+  wine: Wine
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelCategoryConnection {
+  items: [Category]
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelCategoryFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  poster: ModelStringInput
+  and: [ModelCategoryFilterInput]
+  or: [ModelCategoryFilterInput]
+  not: ModelCategoryFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  syncCategories(filter: ModelCategoryFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCategoryConnection
+  getCategory(id: ID!): Category
+  listCategorys(filter: ModelCategoryFilterInput, limit: Int, nextToken: String): ModelCategoryConnection
+  syncWines(filter: ModelWineFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelWineConnection
+  getWine(id: ID!): Wine
+  listWines(filter: ModelWineFilterInput, limit: Int, nextToken: String): ModelWineConnection
+  syncMores(filter: ModelMoreFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelMoreConnection
+  getMore(id: ID!): More
+  listMores(filter: ModelMoreFilterInput, limit: Int, nextToken: String): ModelMoreConnection
+}
+
+input CreateCategoryInput {
+  id: ID
+  title: String!
+  poster: String!
+  _version: Int
+}
+
+input UpdateCategoryInput {
+  id: ID!
+  title: String
+  poster: String
+  _version: Int
+}
+
+input DeleteCategoryInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryInput!, condition: ModelCategoryConditionInput): Category
+  updateCategory(input: UpdateCategoryInput!, condition: ModelCategoryConditionInput): Category
+  deleteCategory(input: DeleteCategoryInput!, condition: ModelCategoryConditionInput): Category
+  createWine(input: CreateWineInput!, condition: ModelWineConditionInput): Wine
+  updateWine(input: UpdateWineInput!, condition: ModelWineConditionInput): Wine
+  deleteWine(input: DeleteWineInput!, condition: ModelWineConditionInput): Wine
+  createMore(input: CreateMoreInput!, condition: ModelMoreConditionInput): More
+  updateMore(input: UpdateMoreInput!, condition: ModelMoreConditionInput): More
+  deleteMore(input: DeleteMoreInput!, condition: ModelMoreConditionInput): More
+}
+
+input ModelCategoryConditionInput {
+  title: ModelStringInput
+  poster: ModelStringInput
+  and: [ModelCategoryConditionInput]
+  or: [ModelCategoryConditionInput]
+  not: ModelCategoryConditionInput
+}
+
+type Subscription {
+  onCreateCategory(owner: String!): Category @aws_subscribe(mutations: ["createCategory"])
+  onUpdateCategory(owner: String!): Category @aws_subscribe(mutations: ["updateCategory"])
+  onDeleteCategory(owner: String!): Category @aws_subscribe(mutations: ["deleteCategory"])
+  onCreateWine(owner: String!): Wine @aws_subscribe(mutations: ["createWine"])
+  onUpdateWine(owner: String!): Wine @aws_subscribe(mutations: ["updateWine"])
+  onDeleteWine(owner: String!): Wine @aws_subscribe(mutations: ["deleteWine"])
+  onCreateMore(owner: String!): More @aws_subscribe(mutations: ["createMore"])
+  onUpdateMore(owner: String!): More @aws_subscribe(mutations: ["updateMore"])
+  onDeleteMore(owner: String!): More @aws_subscribe(mutations: ["deleteMore"])
+}
+
+type ModelWineConnection {
+  items: [Wine]
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelWineFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  origin: ModelStringInput
+  year: ModelIntInput
+  rating: ModelIntInput
+  categoryID: ModelIDInput
+  and: [ModelWineFilterInput]
+  or: [ModelWineFilterInput]
+  not: ModelWineFilterInput
+}
+
+input CreateWineInput {
+  id: ID
+  title: String!
+  origin: String
+  year: Int
+  rating: Int
+  categoryID: ID!
+  _version: Int
+}
+
+input UpdateWineInput {
+  id: ID!
+  title: String
+  origin: String
+  year: Int
+  rating: Int
+  categoryID: ID
+  _version: Int
+}
+
+input DeleteWineInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelWineConditionInput {
+  title: ModelStringInput
+  origin: ModelStringInput
+  year: ModelIntInput
+  rating: ModelIntInput
+  categoryID: ModelIDInput
+  and: [ModelWineConditionInput]
+  or: [ModelWineConditionInput]
+  not: ModelWineConditionInput
+}
+
+type ModelMoreConnection {
+  items: [More]
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelMoreFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  front: ModelStringInput
+  back: ModelStringInput
+  sell: ModelStringInput
+  poster: ModelStringInput
+  wineID: ModelIDInput
+  and: [ModelMoreFilterInput]
+  or: [ModelMoreFilterInput]
+  not: ModelMoreFilterInput
+}
+
+input CreateMoreInput {
+  id: ID
+  name: String
+  front: String
+  back: String
+  sell: String
+  poster: String
+  wineID: ID!
+  _version: Int
+}
+
+input UpdateMoreInput {
+  id: ID!
+  name: String
+  front: String
+  back: String
+  sell: String
+  poster: String
+  wineID: ID
+  _version: Int
+}
+
+input DeleteMoreInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelMoreConditionInput {
+  name: ModelStringInput
+  front: ModelStringInput
+  back: ModelStringInput
+  sell: ModelStringInput
+  poster: ModelStringInput
+  wineID: ModelIDInput
+  and: [ModelMoreConditionInput]
+  or: [ModelMoreConditionInput]
+  not: ModelMoreConditionInput
+}

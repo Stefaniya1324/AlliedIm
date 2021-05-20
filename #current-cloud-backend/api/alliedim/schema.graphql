@@ -1,0 +1,33 @@
+type Category @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+  poster: String!
+
+  wines: [Wine] @connection(keyName: "byCategory", fields: ["id"])
+}
+
+type Wine @model @auth(rules: [{ allow: owner }])
+  @key(name : "byCategory", fields:["categoryID"]){
+  id: ID!
+  title: String!
+  origin: String
+  year: Int
+  rating: Int
+
+  categoryID: ID!
+  more: [More] @connection(keyName: "byWine", fields: ["id"])
+  }
+
+type More @model @auth(rules: [{ allow: owner }])
+  @key(name: "byWine", fields:["wineID"]){
+  id: ID!
+  name: String
+  front: String
+  back: String
+  sell: String
+  poster: String
+
+  wineID: ID!
+  wine: Wine @connection(fields: ["wineID"])
+
+}

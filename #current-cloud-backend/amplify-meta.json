@@ -1,0 +1,64 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-alliedim-dev-155245-authRole",
+      "UnauthRoleArn": "arn:aws:iam::094083086749:role/amplify-alliedim-dev-155245-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::094083086749:role/amplify-alliedim-dev-155245-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-alliedim-dev-155245-deployment",
+      "UnauthRoleName": "amplify-alliedim-dev-155245-unauthRole",
+      "StackName": "amplify-alliedim-dev-155245",
+      "StackId": "arn:aws:cloudformation:us-east-2:094083086749:stack/amplify-alliedim-dev-155245/ca044c40-b8db-11eb-8bd7-0623d7a8909a",
+      "AmplifyAppId": "d1qf5qbemtrq1k",
+      "AuthTriggerTemplateURL": ""
+    }
+  },
+  "auth": {
+    "alliedimbdaf4df3": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-alliedim-dev-155245-deployment/amplify-cfn-templates/auth/alliedimbdaf4df3-cloudformation-template.yml",
+        "logicalId": "authalliedimbdaf4df3"
+      },
+      "lastPushTimeStamp": "2021-05-19T21:03:59.081Z",
+      "output": {
+        "UserPoolId": "us-east-2_rqF8PRoYa",
+        "AppClientIDWeb": "79aofaj583i09sres0e2pkbp33",
+        "AppClientID": "2ijo36p8m03el1grudbikk3ovf",
+        "IdentityPoolId": "us-east-2:7a02add8-78a8-44eb-9492-b9ce02a8538f",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-2:094083086749:userpool/us-east-2_rqF8PRoYa",
+        "IdentityPoolName": "alliedimbdaf4df3_identitypool_bdaf4df3__dev",
+        "UserPoolName": "alliedimbdaf4df3_userpool_bdaf4df3"
+      },
+      "lastPushDirHash": "xvvNQLIff2CKLRP98CYnCx5ehBU="
+    }
+  },
+  "api": {
+    "alliedim": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authalliedimbdaf4df3"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        },
+        "GraphQLAPIIdOutput": "ftyumxcaazd4tiy3ahzhhe6uoe",
+        "GraphQLAPIEndpointOutput": "https://6w6bbwod7bb7veu3n6x6al37au.appsync-api.us-east-2.amazonaws.com/graphql"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-alliedim-dev-155245-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apialliedim"
+      },
+      "lastPushTimeStamp": "2021-05-19T21:03:59.081Z",
+      "lastPushDirHash": "+3RE5qzeFJh9MrUOXKv+Z+QR4WY="
+    }
+  }
+}
